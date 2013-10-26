@@ -1,0 +1,44 @@
+<html lang="en" data-framework="emberjs">
+<head>
+	<title>Todo-Chat</title>	
+	<link rel="stylesheet" type="text/css" href="bootstrap.css">
+</head>
+<body>
+	<script type="text/x-handlebars">
+		<div class="container">
+			<div class="navbar navbar-default">
+				<div class="navbar-header">
+					<a class="navbar-brand">EmberFire Chat</a>
+				</div>
+			</div>		
+			{{outlet}}
+		</div>
+	</script>
+	<script type="text/x-handlebars" data-template-name="index">
+		<div class="panel panel-default">
+			<div class="panel-body">
+				{{#scrolling-div id="messagesDiv" update-when=this}}				
+				{{#each}}
+				<div><em>{{from}}</em>: {{msg}}</div>
+				{{/each}}
+				{{/scrolling-div}}
+			</div>
+		</div>		
+		<div class="col-md-4">
+			{{input id="nameInput" value=from placeholder="Name" class="form-control"}}
+		</div>
+		<div class="col-md-4">
+			{{input id="messageInput" value=msg placeholder="Message..." action="sendMessage" class="form-control"}}
+		</div>
+	</script>
+	<script type="text/x-handlebars" id="components/scrolling-div">
+		{{yield}}
+	</script>
+	<script src="https://cdn.firebase.com/v0/firebase.js"></script>
+	<script type="text/javascript" src="jquery-1.9.1.js"></script>
+	<script type="text/javascript" src="handlebars-1.0.0.js"></script>
+	<script type="text/javascript" src="ember-1.1.2.js"></script>
+	<script src="http://firebase.github.io/emberFire/emberfire-latest.js"></script>	
+	<script type="text/javascript" src="script.js"></script>
+</body>
+</html>
