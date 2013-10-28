@@ -9,14 +9,13 @@ FireChat.IndexRoute = Ember.Route.extend({
 });
 
 FireChat.IndexController = Ember.ArrayController.extend({
-	from:localStorage.name,
-	msg: "",
 	actions: {
 		sendMessage: function() {
 			if(localStorage.name == undefined || localStorage.name == ""){
 				localStorage.name = this.get("from");
 			}
-			this.pushObject({from: this.get("from"), msg: this.get("msg")});
+			this.pushObject(
+				FireChat.Chat.create({from: this.get("from"), msg: this.get("msg")}));
 			this.set("msg", null);
 		}
 	}
@@ -24,12 +23,15 @@ FireChat.IndexController = Ember.ArrayController.extend({
 
 FireChat.ScrollingDivComponent = Ember.Component.extend({
 	scheduleScrollIntoView: function() {
-    // Only run once per tick, once rendering has completed;
-    // avoid flood of scrolls when many updates happen at once
-    Ember.run.scheduleOnce("afterRender", this, "scrollIntoView");
-}.observes("update-when.@each"),
+		Ember.run.scheduleOnce("afterRender", this, "scrollIntoView");
+	}.observes("update-when.@each"),
 
-scrollIntoView: function() {
-	this.$().scrollTop(this.$().prop("scrollHeight"));
-}
+	scrollIntoView: function() {
+		this.$().scrollTop(this.$().prop("scrollHeight"));
+	}
+});
+
+FireChat.Chat = Ember.Object.extend({
+	from:localStorage.name,
+	msg:''
 });
